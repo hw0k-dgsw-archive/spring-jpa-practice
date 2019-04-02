@@ -77,7 +77,11 @@
     };
 
     const addComment = async () => {
-      const value = document.getElementById("comment").value;
+      const value = document.getElementById("comment").value.trim();
+      if (value === null || value === "") {
+        alert("값을 입력해주세요.");
+        return;
+      }
       const { data } = await axios.post(`/comment`, {
         userId: 1,
         content: value
@@ -105,6 +109,10 @@
     const editComment = async () => {
       const id = document.getElementById("edit-id").value;
       const value = document.getElementById("edit-comment").value;
+      if (value === null || value === "") {
+        alert("값을 입력해주세요.");
+        return;
+      }
       const { data } = await axios.put(`/comment/${id}`, {
         content: value
       });
