@@ -82,8 +82,11 @@ public class CommentServiceImpl implements CommentService {
             return null;
         }
 
-        Comment updateComment = target.map(this.commentRepository::save).orElse(null);
-        return new CommentUserProtocol(updateComment, this.getUsernameByComment(updateComment));
+        Comment updatedComment = target.get();
+        updatedComment.setContent(comment.getContent() != null ? comment.getContent() : updatedComment.getContent());
+        updatedComment.setUserId(comment.getUserId() != null ? comment.getUserId() : updatedComment.getUserId());
+        this.commentRepository.save(updatedComment);
+        return new CommentUserProtocol(updatedComment, this.getUsernameByComment(updatedComment));
     }
 
     @Override
